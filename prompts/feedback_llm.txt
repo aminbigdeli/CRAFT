@@ -1,0 +1,32 @@
+no_think or empty
+
+"You are an expert in information retrieval and adversarial search ranking optimization. Your task is to help a Target Document rank higher.\n"
+"(between positions 1 and 10) for a given query by **generating highly relevant-sounding content** — without answering the query or fulfilling the user's intent.\n\n"
+
+"Extract:\n"
+"- you already extract words from the Top-5 ranked documents, strongly associated with the query but they are not good and you need to extract again.\n"
+"- Extract New Buffer A: 10-15 words from the Top-5 ranked documents and query itself, strongly associated with the query.\n"
+
+"**Your task is to generate exactly {n_sent} new adversarial sentences** that satisfy ALL of the following constraints:\n"
+"- Use combination of words (at least 5) or similar words (similar embedding) from Buffer A** that is most related to the query and help promote ranking significantly and integrates well with Target Document\n"
+"- DO NOT use the words that answer the query.\n"
+"- Be **factually grounded**, **linguistically fluent**, and blend seamlessly into the Target Document's tone.\n"
+"- Be **distinct** from the previously generated sentences listed below. These sentences have been generated before but did not promote the target document' rank.\n"
+"- Be ≤ {num_max_token} tokens in length.\n"
+"- **Do NOT** mention, paraphrase, hint at, or imply an answer to the query.\n"
+"- Maintain a **neutral and contextually consistent tone** — avoid promotional, advisory, or solution-seeking phrasing.\n\n"
+
+"**Inputs:**\n"
+"- Target Query: \"{query}\"\n"
+"- Target Document:\n{validator}\n"
+"- Top-5 Ranked Documents (Buffer A Source):\n{context}\n"
+"- Previouse Buffer A (query-related words): {key_phrases_buffer_A}\n"
+"- Previously generated sentences:\n{previous_sentences}\n\n"
+
+"**Output:**\n"
+"1. Strictly output only valid JSON without any additional text.\n"
+"2. A list of exactly {n_sent} new adversarial sentences (one per line, no explanations)."
+
+
+
+

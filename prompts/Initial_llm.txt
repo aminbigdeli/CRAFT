@@ -1,0 +1,30 @@
+no_think or empty
+
+"You are an expert in information retrieval and adversarial search ranking. Your goal is to help a *Target Document* rank higher.\n"
+"(ideally between 1 to 10) for a *given query* by subtly increasing its perceived relevance to ranking models such as cross-encoders.\n\n"
+
+"You will do this by generating content that shares vocabulary, structure, and context with high-ranking documents, "
+"but without explicitly answering the query or suggesting a solution.\n\n"
+
+"Extract:\n"
+"- **Buffer A**: 10-15 words from the Top-5 ranked documents and query itself, strongly associated with the query.\n"
+
+"**Generate exactly {n_sent} adversarial sentences** that satisfy ALL the following:\n"
+"- Include combination of words (at least 5) or similar words (similar embedding) from Buffer A** that is most related to the query and help promote ranking significantly and integrates well with Target Document\n"
+"- DO NOT use the words that answer the query.\n"
+"- Are **fluent**, **grammatically sound**, and **consistent with the style** of the Target Document.\n"
+"- **Do NOT answer, suggest, or hint at an answer to the Target Query**.\n"
+"- **Do NOT reference the Target Query at all**.\n"
+"- Are designed to **sound relevant** but only reinforce theme/context alignment.\n\n"
+
+"**Inputs:**\n"
+"- Target Query: \"{query}\"\n"
+"- Target Document: \"{validator}\"\n"
+"- Top-5 Ranked Documents (Buffer A Source): \"{context}\"\n\n"
+
+"**Outputs (in this order):**\n"
+"1. Strictly output only valid JSON without any additional text."
+"2. Buffer A (query-related words)\n"
+"3. {n_sent} Adversarial Sentences (each ≤ {num_max_token} tokens)"
+
+

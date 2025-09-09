@@ -1,0 +1,65 @@
+# CRAFT Training Configuration
+# Configuration file for the complete CRAFT training pipeline
+
+# Stage 1: Adversarial Dataset Generation
+stage1:
+  llm_model: "Qwen3-32B"
+  ranking_model: "msmarco-MiniLM-L-12-v2"
+  max_iterations: 5
+  rank_threshold: 10
+  context_size: 5
+  batch_size: 8
+
+# Stage 2: Supervised Fine-Tuning
+stage2:
+  base_model: "DeepSeek-R1-Distill-Llama-70B"  # or "QwQ-32B"
+  epochs: 3
+  learning_rate: 2e-5
+  batch_size: 4
+  gradient_accumulation_steps: 8
+  warmup_steps: 100
+  max_grad_norm: 1.0
+  save_steps: 500
+  eval_steps: 500
+  logging_steps: 100
+
+# Stage 3: Direct Preference Optimization
+stage3:
+  ranking_model: "msmarco-MiniLM-L-12-v2"
+  beta: 0.1
+  epochs: 2
+  learning_rate: 5e-6
+  batch_size: 2
+  gradient_accumulation_steps: 16
+  warmup_steps: 50
+  max_grad_norm: 1.0
+  save_steps: 500
+  eval_steps: 500
+  logging_steps: 100
+
+# Data paths
+data:
+  queries_path: "data/raw/msmarco_queries.tsv"
+  documents_path: "data/raw/msmarco_passages.tsv"
+  stage1_dataset: "data/processed/adversarial_dataset.json"
+  preference_pairs_path: "data/processed/preference_pairs.json"
+
+# Output paths
+output:
+  stage1_dataset: "data/processed/adversarial_dataset.json"
+  stage2_model: "models/craft_stage2"
+  stage3_model: "models/craft_final"
+  logs_dir: "logs"
+
+# Hardware settings
+hardware:
+  device: "cuda"
+  mixed_precision: true
+  gradient_checkpointing: true
+  dataloader_num_workers: 4
+
+# Evaluation settings
+evaluation:
+  metrics: ["asr", "top10", "top50", "boost", "ss", "ati", "adt", "lor", "ppl", "acs"]
+  test_size: 0.2
+  random_seed: 42
